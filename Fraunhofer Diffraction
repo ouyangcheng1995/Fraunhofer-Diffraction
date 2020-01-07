@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+from numpy import pi, linspace ,meshgrid ,sin
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+lamda=500*1.E􀀀9; k=(2.*pi)/lamda # Wavelength in vaccuum
+b=0.1*1.E􀀀3; h=0.1*1.E􀀀3 #dimensions rectangular aperture (m)
+f_2 = 1 # Distantance between the aperture and the screen (m)
+a= 5 * 1.E􀀀2 # Side of a square􀀀shaped screen (m)
+X_Mmax=a/2. ; X_Mmin = 􀀀a/2.
+Y_Mmax = X_Mmax ; Y_Mmin = X_Mmin
+N =1000
+X=linspace(X_Mmin , X_Mmax ,N); Y=X # coordinates of screen
+B=(k*b*X)/(2.*f_2); H=(k*h*Y)/(2.*f_2)# intermediate variable
+#graph 2D
+BB, HH =meshgrid(B,H)
+I=(sin(BB)/BB)**2 * (sin(HH)/HH)**2
+fig = plt.figure(figsize=(12, 5))
+fig.suptitle('Fraunhofer Diffraction of rectangular aperture',
+fontsize=14, fontweight='bold')
+ax1 = fig.add_subplot(121)
+ax1.imshow(I, cmap=cm.gray , interpolation='bilinear',
+origin='lower',vmin=I.min(), vmax= 0.01*I.max())
+ax1.set_xticks([0, N/2, N]); ax1.set_xticklabels([􀀀X_Mmax , 0,X_Mmax])
+ax1.set_yticks([0, N/2, N]); ax1.set_yticklabels([􀀀Y_Mmax , 0,Y_Mmax])
+ax1.set_xlabel(r'$X \ (m)$',fontsize=14, fontweight='bold')
+ax1.set_ylabel(r'$Y \ (m)$',fontsize=14, fontweight='bold')
+ax1.set_title(r"$\lambda = %.3e \ m, \ b = %s \ m, \ h = %s \ m $"%
+(lamda ,b, h),fontsize=14)
+plt.show()
